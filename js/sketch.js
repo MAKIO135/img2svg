@@ -14,7 +14,7 @@ img.load( err => {
     
     let noise = new Rune.Noise();
 
-    let gridSize  = 5;
+    /*let gridSize  = 5;
     for( let y = 0; y < height; y += gridSize ) {
         for( let x = 0; x < width; x += gridSize ) {
             let color = img.get( x, y );
@@ -28,7 +28,30 @@ img.load( err => {
                     .stroke( 255 );
             }
         }
+    }*/
+
+    let cx = width/2;
+    let cy = height/2;
+    let path = r.path( 0, 0 );
+    path.moveTo( cx, cy );
+    path.fill( false );
+    path.stroke( 255 );
+    for( let i = 0; i < 55000; i ++ ) {
+        let angle =  i * 0.01;
+        let r = i * 0.005;
+        let x = cx + Math.sin( angle ) * r;
+        let y = cy + Math.cos( angle ) * r;
+
+        if( img.get( x, y ).luminosity() > 0.5 ){
+            r += 5;
+            x = cx + Math.sin( angle ) * r;
+            y = cy + Math.cos( angle ) * r;
+        }
+
+        path.lineTo( x, y );
     }
+
+
     
     r.draw();
     save();
